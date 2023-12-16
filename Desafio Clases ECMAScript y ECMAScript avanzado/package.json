@@ -1,0 +1,12 @@
+{
+  "name": "desafio-clases-ecmascript-y-ecmascript-avanzado",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Primer entregable",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alejo Cancino",
+  "license": "ISC"
+}
