@@ -1,0 +1,12 @@
+{
+  "name": "desafio-manejo-de-archivos",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Desafio Manejo de Archivos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alejo Cancino",
+  "license": "ISC"
+}
