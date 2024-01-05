@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Pelota",
+    "description": "Cuero",
+    "price": 1500,
+    "thumbnail": "",
+    "code": "PC001",
+    "stock": 2250,
+    "id": 1
+  },
+  {
+    "title": "Campera de cuero",
+    "description": "Cuero",
+    "price": 5000,
+    "thumbnail": "",
+    "code": "CC001",
+    "stock": 180,
+    "id": 2
+  },
+  {
+    "title": "Escritorio de madera",
+    "description": "Madera",
+    "price": 3500,
+    "thumbnail": "",
+    "code": "EM001",
+    "stock": 270,
+    "id": 3
+  },
+  {
+    "title": "Parlante Bluetooth",
+    "description": "Plástico",
+    "price": 1000,
+    "thumbnail": "",
+    "code": "PB001",
+    "stock": 900,
+    "id": 4
+  }
+]
