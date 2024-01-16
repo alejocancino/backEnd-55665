@@ -1,1 +1,2 @@
-export * from './productManager.js'
+export * from "./productManager.js";
+export * from "./cartManager.js";

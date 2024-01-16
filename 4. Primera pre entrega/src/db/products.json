@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Pelota",
+    "description": "Cuero",
+    "price": 1500,
+    "thumbnail": "",
+    "code": "PC001",
+    "stock": 2250,
+    "id": 1
+  },
+  {
+    "title": "Sweater Lana",
+    "description": "Lana",
+    "price": 5000,
+    "thumbnail": "",
+    "code": "SL001",
+    "stock": 180,
+    "id": 2
+  },
+  {
+    "title": "Escritorio de madera",
+    "description": "Madera",
+    "price": 3500,
+    "thumbnail": "",
+    "code": "EM001",
+    "stock": 270,
+    "id": 3
+  }
+]
