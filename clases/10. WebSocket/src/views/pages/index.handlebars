@@ -1,0 +1,19 @@
+<div class="py-5">
+  <h1>
+    Chat con Socket
+  </h1>
+  <form class="row gap-4" onsubmit="return addMessages()">
+    <input type="text" name="nombre" id="name" placeholder="Nombre de usuario">
+    <div>
+      <div id="textContainer" class="messagesBox border rounded-top py-2 px-4">
+        <strong>Alejo: </strong>Amet quis pariatur sit velit enim laborum excepteur sunt id aliquip eu velit pariatur.
+        </p>
+      </div>
+
+      <input type="text" class="w-100 rounded-bottom py-2 px-4" id="mensaje" placeholder="Mensaje">
+    </div>
+    <button type="submit" class="btn btn-primary" value="enviar">Enviar</button>
+  </form>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/scripts.js"></script>
