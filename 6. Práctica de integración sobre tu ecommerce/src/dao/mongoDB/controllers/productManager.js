@@ -1,5 +1,3 @@
-// productManager.js
-
 import ProductSchema from "../schemas/products.schema.js";
 
 class ProductManager {
