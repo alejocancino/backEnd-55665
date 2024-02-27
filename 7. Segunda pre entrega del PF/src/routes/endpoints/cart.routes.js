@@ -15,26 +15,27 @@ cartRouter.post("/", async (req, res) => {
   }
 });
 
-// Eliminar carrito
+// Eliminar productos del carrito
 cartRouter.delete("/:cid", async (req, res) => {
   const { cid } = req.params;
   try {
-    await cartManager.deleteCart(parseInt(cid));
-    
-    localStorage.setItem("cartId", newCart._id);
-
-    res.status(200).send("Carrito eliminado correctamente");
+    const result = await cartManager.deleteProductsFromCart(cid);
+    if (result.msg) {
+      return res.status(200).send(result.msg);
+    }
+    res.status(200).send(`Productos del carrito con ID ${cid} eliminados correctamente`);
   } catch (error) {
-    console.error("Error al eliminar carrito:", error);
-    res.status(500).send("Error interno al eliminar carrito");
+    console.error("Error al eliminar productos del carrito:", error);
+    res.status(500).send(`Error interno al eliminar productos del carrito: ${error.message}`);
   }
 });
+
 
 // Solicitar carrito por ID
 cartRouter.get("/:cid", async (req, res) => {
   const { cid } = req.params;
   try {
-    const cart = await cartManager.getCartById(parseInt(cid));
+    const cart = await cartManager.getCartById(cid);
     if (!cart) {
       res.status(404).send(`El carrito con ID ${cid} no se encontró`);
     } else {
@@ -60,10 +61,10 @@ cartRouter.post("/:cid/products/:pid", async (req, res) => {
 });
 
 // Eliminar producto del carrito
-cartRouter.delete("/:cid/product/:pid", async (req, res) => {
+cartRouter.delete("/:cid/products/:pid", async (req, res) => {
   const { cid, pid } = req.params;
   try {
-    await cartManager.removeProductFromCart(parseInt(cid), parseInt(pid));
+    await cartManager.deleteProductInCart(cid, pid);
     res
       .status(200)
       .send(`Producto con ID ${pid} eliminado del carrito con ID ${cid}`);
@@ -74,13 +75,13 @@ cartRouter.delete("/:cid/product/:pid", async (req, res) => {
 });
 
 // Actualizar cantidad de un producto en el carrito
-cartRouter.put("/:cid/product/:pid", async (req, res) => {
+cartRouter.put("/:cid/products/:pid", async (req, res) => {
   const { cid, pid } = req.params;
   const { quantity } = req.body;
   try {
     await cartManager.updateProductQuantity(
-      parseInt(cid),
-      parseInt(pid),
+      cid,
+      pid,
       quantity
     );
     res

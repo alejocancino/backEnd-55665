@@ -63,19 +63,22 @@ class CartManager {
       throw new Error(`Error al actualizar la cantidad: ${error.message}`);
     }
   }
-
-  async deleteProducts(cartId) {
+  async deleteProductsFromCart(cartId) {
     try {
       let cart = await CartModel.findById(cartId);
       if (!cart) {
         throw new Error("Carrito no encontrado");
       }
-
+  
+      if (cart.products.length === 0) {
+        return { msg: "El carrito ya está vacío" };
+      }
+  
       cart.products = [];
       cart = await cart.save();
       return cart;
     } catch (error) {
-      throw new Error(`Error al eliminar productos: ${error.message}`);
+      throw new Error(`Error al eliminar los productos del carrito: ${error.message}`);
     }
   }
 
