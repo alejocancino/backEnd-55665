@@ -5,6 +5,7 @@ const homeViewsRouter = Router();
 const productManager = new ProductManager();
 
 homeViewsRouter.get("/", async (req, res) => {
+  const prods = await productManager.getProducts({})
 
   try {
     res.status(200).render("pages/home", {
@@ -12,6 +13,7 @@ homeViewsRouter.get("/", async (req, res) => {
       styles: "/styles",
       userInfo: req.session.user,
       titulo: "Home",
+      products: prods,
       error: null,
     });
   } catch (error) {
@@ -20,6 +22,7 @@ homeViewsRouter.get("/", async (req, res) => {
       js: "/home.js",
       styles: "/styles",
       titulo: "Home",
+      products: [],
       error: `Hubo un error: ${error}`,
     });
   }

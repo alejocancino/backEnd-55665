@@ -11,16 +11,14 @@ authRouter.post("/login", async (req, res) => {
   try {
     const user = await userManager.getUserByEmail(email);
     if (user) {
-      console.log(email, password);
-
       if (!validatePassword(user, password)) {
-        return res.status(401).send({ error: "Credenciales incorrectas" });
+        res.status(401).send({ error: "Credenciales incorrectas" });
       }
       req.session.user = user;
-      return res.status(200).redirect("/auth/profile");
+      res.status(200).redirect("/auth/profile");
     }
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -31,16 +29,16 @@ authRouter.post(
   }),
   async (req, res) => {
     try {
-      return res.status(200).redirect("/products");
+      res.status(200).redirect("/products");
     } catch (error) {
-      return res.status(500).json(error);
+      res.status(500).json(error);
     }
   }
 );
 
 authRouter.get(
   "/github",
-  passport.authenticate("github", { scope: [ 'user:email' ] }),
+  passport.authenticate("github", {}),
   async (req, res) => {}
 );
 
@@ -49,7 +47,9 @@ authRouter.get(
   passport.authenticate("github", {}),
   async (req, res) => {
     req.session.user = req.user;
-    return res.status(200).redirect("/home");
+
+    res.setHeader("Content-Type", "application/json");
+    return res.status(200).redirect('/home');
   }
 );
 
@@ -57,9 +57,9 @@ authRouter.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.error("Error al cerrar sesión:", err);
-      return res.status(500).json({ error: "Error al cerrar sesión" });
+      res.status(500).json({ error: "Error al cerrar sesión" });
     } else {
-      return res.status(200).redirect("/auth/login");
+      res.status(200).redirect("/auth/login");
     }
   });
 });
