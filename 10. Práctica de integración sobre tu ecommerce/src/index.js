@@ -56,9 +56,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-initPassport()
-app.use(passport.initialize())
-app.use(passport.session())
+initPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware para enviar el objeto io a las rutas
 app.use((req, res, next) => {
@@ -94,12 +94,16 @@ app.use("/api/auth", authRouter);
 
 // Rutas con vistas
 app.use("/auth", authViewsRouter);
-app.use("/home", requireLogin,homeViewsRouter);
-app.use("/products",requireLogin, prodViewsRouter);
-app.use("/carts",requireLogin, cartViewsRouter);
-app.use("/chat",requireLogin, chatViewsRouter);
-app.use("/realtimeproducts",requireLogin, realTimeViewsRouter);
+app.use("/home", requireLogin, homeViewsRouter);
+app.use("/products", requireLogin, prodViewsRouter);
+app.use("/carts", requireLogin, cartViewsRouter);
+app.use("/chat", requireLogin, chatViewsRouter);
+app.use("/realtimeproducts", requireLogin, realTimeViewsRouter);
 
-app.use((req, res, next) => {
-  res.status(404).render("pages/404", { layout: false });
+app.use("*", (req,res) => {
+  res.status(404).render("pages/404", {
+    layout: "auth",
+    titulo: "Oops 404",
+    styles: "/styles",
+  });
 });

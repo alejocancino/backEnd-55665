@@ -2,19 +2,10 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import github from "passport-github2";
 import { UserManager } from "../dao/db/controllers/user.controllers.js";
-import jwt from "passport-jwt";
 
 import { createHash } from "../utils/bcrypt.js";
 
 const userManager = new UserManager();
-
-const cookieExtractor = function(req) {
-  let token = null;
-  if (req && req.cookies) {
-      token = req.cookies['jwt'];
-  }
-  return token;
-};
 
 const initPassport = () => {
   // ** Local Strategy **
@@ -59,39 +50,23 @@ const initPassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          console.log(profile._json);
-          const { name, email, login } = profile._json;
+          const { name : first_name, email, login } = profile._json;
+  
           let user = await userManager.getUserByEmail(email);
-
           if (!user) {
-            user = await userManager.newUser({
-              first_name: name,
-              email: email,
+            const newUser = await userManager.newUser({
+              first_name,
+              email,
               password: createHash(`${email + login}123`),
-            });
+            }); 
+            return done(null, newUser);
           }
-
-          return done(null, user);
+          return done(null, user)
         } catch (error) {
           return done(error);
         }
       }
     )
-  );
-
-  // ** JWT Strategy **
-  passport.use(
-    "jwt",
-    new jwt.Strategy({
-      jwtFromRequest: jwt.ExtractJwt.fromExtractors([cookieExtractor]),
-      secretOrKey: "quasar-secret-superdificil",
-    }, async (jwt_payload, done)=> {
-      try {
-         return done(null, jwt_payload)
-      } catch (error) {
-        return done("Token invalido", error)
-      }
-    })
   );
 
   passport.serializeUser((user, done) => {
