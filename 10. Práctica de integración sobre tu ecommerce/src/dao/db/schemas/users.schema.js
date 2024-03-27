@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-
+import { CartManager } from "../controllers/cart.controller.js";
 const userSchema = new Schema(
   {
     first_name: {
@@ -19,12 +19,15 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     role: {
       type: String,
-      default: "usuario",
+      default: "user",
     },
+    cart: {
+      type: Schema.Types.ObjectId,
+      ref: "Cart" 
+    }
   },
   {
     timestamps: true,
@@ -32,4 +35,19 @@ const userSchema = new Schema(
   }
 );
 
-export const UserSchema = model("users", userSchema);
+userSchema.pre('save', async function(next) {
+  if (!this.cart) {
+    try {
+      const cartManager = new CartManager()
+      const newCart = await cartManager.createCart(); 
+      this.cart = newCart._id; 
+      next();
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    next();
+  }
+});
+
+export const UserSchema = model("User", userSchema);

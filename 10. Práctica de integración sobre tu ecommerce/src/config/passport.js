@@ -49,15 +49,18 @@ const initPassport = () => {
         callbackURL: "http://localhost:8080/api/auth/GithubCallback",
       },
       async (accessToken, refreshToken, profile, done) => {
+        console.log(profile)
         try {
-          const { name : first_name, email, login } = profile._json;
-  
+          const { name , email, login } = profile._json;
+
+          if (!email) {
+            return done("Tú GitHub Profile no tiene un email público. Configuralo e intenta de nuevo.");
+          }
           let user = await userManager.getUserByEmail(email);
           if (!user) {
             const newUser = await userManager.newUser({
-              first_name,
-              email,
-              password: createHash(`${email + login}123`),
+              first_name : name ? name : login,
+              email: email,
             }); 
             return done(null, newUser);
           }

@@ -13,7 +13,7 @@ import { connectionToDB } from "./dao/db/dbConnection.js";
 import { initPassport } from "./config/passport.js";
 
 import { prodRouter } from "./routes/endpoints/products.routes.js";
-import { cartRouter, authRouter } from "./routes/endpoints/index.js";
+import { cartRouter, authRouter, sessionsRouter } from "./routes/endpoints/index.js";
 
 import {
   homeViewsRouter,
@@ -90,6 +90,7 @@ handleSocketConnection(io); //función de manejo de sockets
 
 app.use("/api/products", requireLogin, prodRouter);
 app.use("/api/carts", requireLogin, cartRouter);
+app.use("/api/sessions", requireLogin, sessionsRouter);
 app.use("/api/auth", authRouter);
 
 // Rutas con vistas
