@@ -15,7 +15,6 @@ homeViewsRouter.get("/", async (req, res) => {
       error: null,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).render("pages/home", {
       js: "/home.js",
       styles: "/styles",

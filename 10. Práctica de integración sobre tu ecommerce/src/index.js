@@ -26,7 +26,7 @@ import {
 
 import { handleSocketConnection } from "./utils/socketHandlers.js";
 
-const PORT = 8080;
+const PORT = 8081;
 
 const app = express();
 const server = createServer(app);
@@ -87,7 +87,6 @@ app.set("views", path.resolve(__dirname, "./views"));
 handleSocketConnection(io); //función de manejo de sockets
 
 // ** Endpoints **
-
 app.use("/api/products", requireLogin, prodRouter);
 app.use("/api/carts", requireLogin, cartRouter);
 app.use("/api/sessions", requireLogin, sessionsRouter);
