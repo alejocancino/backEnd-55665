@@ -1,11 +1,8 @@
 import passport from "passport";
 import LocalStrategy from "passport-local";
 import github from "passport-github2";
-// TODO: import { UserManager } from "../dao/db/controllers/user.controllers.js";
 
-import { createHash } from "../utils/bcrypt.js";
-
-// TODO: const userManager = new UserManager();
+import { createUser, getUserByEmail, getUserById } from "../services/user.services.js";
 
 const initPassport = () => {
   // ** Local Strategy **
@@ -19,17 +16,17 @@ const initPassport = () => {
       async (req, username, password, done) => {
         try {
           const userData = req.body;
-          const user = await userManager.getUserByEmail(username);
+          const user = await getUserByEmail(username); 
           if (user) {
             done("Error, usuario ya existente", false);
           }
 
-          const result = await userManager.newUser({
+          const result = await createUser({ 
             first_name: userData.first_name,
             last_name: userData.last_name,
             age: parseInt(userData.age),
             email: username,
-            password: createHash(password),
+            password: password,
           });
           done(null, result);
         } catch (error) {
@@ -56,9 +53,9 @@ const initPassport = () => {
           if (!email) {
             return done("Tú GitHub Profile no tiene un email público. Configuralo e intenta de nuevo.");
           }
-          let user = await userManager.getUserByEmail(email);
+          let user = await getUserByEmail(email); 
           if (!user) {
-            const newUser = await userManager.newUser({
+            const newUser = await createUser({ 
               first_name : name ? name : login,
               email: email,
             }); 
@@ -77,7 +74,7 @@ const initPassport = () => {
   });
 
   passport.deserializeUser(async (id, done) => {
-    const user = await userManager.getUserById(id);
+    const user = await getUserById(id);
     done(null, user);
   });
 };

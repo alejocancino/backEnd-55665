@@ -66,14 +66,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware de autenticación
-function requireLogin(req, res, next) {
-  if (req.session.user) {
-    next();
-  } else {
-    res.redirect("/auth/login");
-  }
-}
+
 
 // ** public **
 app.use("/", express.static(path.join(__dirname, "/public")));
